@@ -1,10 +1,6 @@
-import fetch from "node-fetch";
+// Usando fetch nativo do Next.js
 
-interface Place {
-  name: string;
-  address: string;
-  rating: number | null;
-}
+import type { Place } from "@/types";
 
 interface OverpassElement {
   tags?: {

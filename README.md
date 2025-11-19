@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Onde Ir - Descubra lugares com IA ✨
 
-## Getting Started
+Uma aplicação Next.js moderna que utiliza inteligência artificial para ajudar usuários a encontrar os melhores lugares baseado em suas necessidades e localização.
 
-First, run the development server:
+## 🚀 Funcionalidades
+
+- **Busca Inteligente**: Digite o que você está procurando em linguagem natural e deixe a IA interpretar sua intenção
+- **Localização Precisa**: Use sua localização atual ou defina uma localização manual para encontrar lugares próximos
+- **Resultados Detalhados**: Visualize informações completas sobre cada lugar, incluindo endereço, avaliações e contatos
+- **Interface Moderna**: Design responsivo e intuitivo com Tailwind CSS
+
+## 🛠️ Tecnologias
+
+- **Next.js 15** - Framework React com App Router
+- **TypeScript** - Tipagem estática
+- **Tailwind CSS** - Estilização moderna
+- **OpenStreetMap API** - Busca de lugares
+- **Hugging Face API** - Interpretação de intenções com IA
+
+## 📦 Instalação
 
 ```bash
+# Instalar dependências
+npm install
+
+# Executar em modo de desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build para produção
+npm run build
+
+# Iniciar servidor de produção
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000) no seu navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Estrutura do Projeto
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+onde-ir/
+├── app/                    # Páginas e rotas da aplicação
+│   ├── api/               # Rotas da API
+│   ├── results/           # Página de resultados
+│   └── page.tsx           # Página inicial
+├── components/            # Componentes React reutilizáveis
+│   ├── LocationSelector.tsx
+│   ├── PlaceCard.tsx
+│   └── SearchBar.tsx
+├── hooks/                 # Custom hooks
+│   └── useLocation.ts
+├── lib/                   # Utilitários e lógica de negócio
+│   ├── ai.ts             # Interpretação de intenções
+│   └── places.ts         # Busca de lugares
+└── types/                 # Definições de tipos TypeScript
+    └── index.ts
+```
 
-## Learn More
+## ✨ Melhorias Implementadas
 
-To learn more about Next.js, take a look at the following resources:
+### Código e Arquitetura
+- ✅ Removida dependência `node-fetch` (usando fetch nativo do Next.js)
+- ✅ Criados tipos TypeScript compartilhados para evitar duplicação
+- ✅ Melhor tratamento de erros e validações nas APIs
+- ✅ Código mais limpo e organizado
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Interface e UX
+- ✅ Página inicial redesenhada com design moderno e informativo
+- ✅ Componente `SearchBar` reutilizado na página inicial
+- ✅ `PlaceCard` melhorado com mais informações (telefone, site, distância)
+- ✅ Substituição de `alert()` por componentes de UI apropriados
+- ✅ Melhor feedback visual com estados de loading e erro
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Acessibilidade e SEO
+- ✅ Metadata apropriada para SEO
+- ✅ Atributos ARIA para melhor acessibilidade
+- ✅ Idioma configurado para português brasileiro
 
-## Deploy on Vercel
+### Performance
+- ✅ Suporte a debounce na busca (opcional)
+- ✅ Transições suaves e animações otimizadas
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔧 Próximas Melhorias Sugeridas
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [ ] Adicionar cache para resultados de busca
+- [ ] Implementar histórico de buscas
+- [ ] Adicionar favoritos
+- [ ] Integração com Google Maps para visualização
+- [ ] Filtros avançados (preço, horário, etc.)
+- [ ] Testes unitários e de integração
+- [ ] PWA (Progressive Web App)
+
+## 📝 Licença
+
+Este projeto é de código aberto e está disponível sob a licença MIT.

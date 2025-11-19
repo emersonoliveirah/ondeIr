@@ -2,9 +2,10 @@
 
 import React, { useState } from "react";
 import { useLocation } from "@/hooks/useLocation";
+import type { Location } from "@/types";
 
 interface LocationSelectorProps {
-  onLocationChange?: (location: { latitude: number; longitude: number; city?: string }) => void;
+  onLocationChange?: (location: Location) => void;
 }
 
 export default function LocationSelector({ onLocationChange }: LocationSelectorProps) {
@@ -13,6 +14,7 @@ export default function LocationSelector({ onLocationChange }: LocationSelectorP
   const [manualLat, setManualLat] = useState("");
   const [manualLng, setManualLng] = useState("");
   const [manualCity, setManualCity] = useState("");
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const handleGetCurrentLocation = () => {
     getCurrentLocation();
@@ -20,16 +22,17 @@ export default function LocationSelector({ onLocationChange }: LocationSelectorP
 
   const handleManualSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setValidationError(null);
     const lat = parseFloat(manualLat);
     const lng = parseFloat(manualLng);
     
     if (isNaN(lat) || isNaN(lng)) {
-      alert("Por favor, insira coordenadas válidas");
+      setValidationError("Por favor, insira coordenadas válidas");
       return;
     }
     
     if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
-      alert("Coordenadas inválidas. Latitude deve estar entre -90 e 90, longitude entre -180 e 180");
+      setValidationError("Coordenadas inválidas. Latitude deve estar entre -90 e 90, longitude entre -180 e 180");
       return;
     }
     
@@ -48,23 +51,23 @@ export default function LocationSelector({ onLocationChange }: LocationSelectorP
   }, [location, onLocationChange]);
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-sm border mb-4">
-      <h3 className="text-lg font-semibold mb-3">📍 Localização</h3>
+    <div className="bg-white p-5 rounded-2xl shadow-lg border-2 border-slate-200 mb-6">
+      <h3 className="text-xl font-bold mb-4 text-slate-800">📍 Localização</h3>
       
       {location ? (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <div>
-              <p className="font-medium">
+            <div className="flex-1">
+              <p className="font-bold text-slate-800 text-lg mb-1">
                 {location.city ? `${location.city}, ${location.country}` : "Localização definida"}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-slate-600 font-mono">
                 {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
               </p>
             </div>
             <button
               onClick={clearLocation}
-              className="text-red-600 hover:text-red-800 text-sm"
+              className="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm font-semibold border border-red-300"
             >
               Limpar
             </button>
@@ -75,16 +78,16 @@ export default function LocationSelector({ onLocationChange }: LocationSelectorP
           <button
             onClick={handleGetCurrentLocation}
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-xl hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold shadow-md transition-all duration-200"
           >
-            {loading ? "Obtendo localização..." : "📍 Usar minha localização atual"}
+            {loading ? "⏳ Obtendo localização..." : "📍 Usar minha localização atual"}
           </button>
           
-          <div className="text-center text-gray-500">ou</div>
+          <div className="text-center text-slate-500 font-medium py-2">ou</div>
           
           <button
             onClick={() => setShowManualInput(!showManualInput)}
-            className="w-full bg-gray-100 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-200"
+            className="w-full bg-slate-100 text-slate-700 py-3 px-4 rounded-xl hover:bg-slate-200 font-semibold border border-slate-300 transition-colors"
           >
             📍 Inserir localização manual
           </button>
@@ -92,7 +95,7 @@ export default function LocationSelector({ onLocationChange }: LocationSelectorP
           {showManualInput && (
             <form onSubmit={handleManualSubmit} className="space-y-3 mt-3">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
                   Cidade (opcional)
                 </label>
                 <input
@@ -100,13 +103,13 @@ export default function LocationSelector({ onLocationChange }: LocationSelectorP
                   value={manualCity}
                   onChange={(e) => setManualCity(e.target.value)}
                   placeholder="Ex: São Paulo"
-                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                  className="w-full p-3 border-2 border-slate-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
                 />
               </div>
               
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
                     Latitude
                   </label>
                   <input
@@ -115,13 +118,13 @@ export default function LocationSelector({ onLocationChange }: LocationSelectorP
                     value={manualLat}
                     onChange={(e) => setManualLat(e.target.value)}
                     placeholder="Ex: -23.5505"
-                    className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    className="w-full p-3 border-2 border-slate-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
                     required
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
                     Longitude
                   </label>
                   <input
@@ -130,23 +133,23 @@ export default function LocationSelector({ onLocationChange }: LocationSelectorP
                     value={manualLng}
                     onChange={(e) => setManualLng(e.target.value)}
                     placeholder="Ex: -46.6333"
-                    className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    className="w-full p-3 border-2 border-slate-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
                     required
                   />
                 </div>
               </div>
               
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <button
                   type="submit"
-                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-xl hover:from-blue-700 hover:to-purple-700 font-semibold shadow-md transition-all duration-200"
                 >
                   Definir Localização
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowManualInput(false)}
-                  className="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400"
+                  className="flex-1 bg-slate-200 text-slate-700 py-3 px-4 rounded-xl hover:bg-slate-300 font-semibold border border-slate-300 transition-colors"
                 >
                   Cancelar
                 </button>
@@ -157,13 +160,19 @@ export default function LocationSelector({ onLocationChange }: LocationSelectorP
       )}
       
       {error && (
-        <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-800 text-sm">{error}</p>
+        <div className="mt-4 p-4 bg-red-100 border-2 border-red-400 rounded-xl">
+          <p className="text-red-900 text-sm font-semibold">{error}</p>
         </div>
       )}
       
-      <div className="mt-3 text-xs text-gray-500">
-        <p>💡 Dica: Use sua localização atual para encontrar lugares próximos a você!</p>
+      {validationError && (
+        <div className="mt-4 p-4 bg-red-100 border-2 border-red-400 rounded-xl">
+          <p className="text-red-900 text-sm font-semibold">{validationError}</p>
+        </div>
+      )}
+      
+      <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-xl">
+        <p className="text-blue-800 text-xs font-medium">💡 Dica: Use sua localização atual para encontrar lugares próximos a você!</p>
       </div>
     </div>
   );

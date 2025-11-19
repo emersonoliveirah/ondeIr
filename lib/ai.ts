@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+// Usando fetch nativo do Next.js
 
 // Mapeamento de palavras-chave para categorias de lugares
 const categoryMapping: Record<string, string[]> = {

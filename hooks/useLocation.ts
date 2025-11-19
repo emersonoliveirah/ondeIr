@@ -1,13 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
-interface Location {
-  latitude: number;
-  longitude: number;
-  city?: string;
-  country?: string;
-}
+import type { Location } from "@/types";
 
 interface UseLocationReturn {
   location: Location | null;
